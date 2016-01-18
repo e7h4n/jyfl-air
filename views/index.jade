@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container
+    .page-header
+      h1
+        | 金隅翡丽
+        br
+        | 实时空气质量
+    .jumbotron
+      h1
+        | PM2.5
+        br
+        | #{latestData.value}ug/m
+        sup 3
+      p 铂庭2区1号楼监测点
+      p 更新时间: #{latestData.year}年#{latestData.month}月#{latestData.day}日 #{latestData.hour}:#{latestData.minute}
