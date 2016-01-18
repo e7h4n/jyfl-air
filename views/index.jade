@@ -1,6 +1,14 @@
 extends layout
 
 block content
+  style.
+    #chart {
+      width: 100%;
+      height: 300px;
+    }
+    textarea {
+      display: none;
+    }
   .container
     .page-header
       h1
@@ -15,3 +23,37 @@ block content
         sup 3
       p 铂庭2区1号楼监测点
       p 更新时间: #{latestData.year}年#{latestData.month}月#{latestData.day}日 #{sprintf('%02d', latestData.hour)}:#{sprintf('%02d', latestData.minute)}
+    #chart
+    textarea.history-data= JSON.stringify(historyDatas)
+    textarea.latestData= JSON.stringify(latestData)
+    script.
+      var historyData = JSON.parse(document.getElementsByClassName('history-data')[0].value);
+      var myChart = echarts.init(document.getElementById('chart'))
+      var option = {
+        title: {
+          text: '小区 PM2.5 浓度历史'
+        },
+        xAxis: [{
+          data: historyData.map(function (data) {
+            return +new Date(data.year, data.month - 1, data.day, data.hour, data.minute, 0)
+          }),
+          axisLabel: {
+            formatter: function (timestampe) {
+              date = new Date(timestampe);
+              return date.getHours() + ':' + (date.getMinutes() < 9 ? '0' : '') + date.getMinutes();
+            }
+          }
+        }],
+        yAxis: [{
+          type : 'value'
+        }],
+        color: ['#61a0a8', '#dd8668', '#91c7ae', '#6e7074', '#61a0a8', '#bda29a', '#44525d', '#c4ccd3'],
+        series: [{
+          type: 'bar',
+          data: historyData.map(function (data) {
+            return data.value;
+          })
+        }]
+      };
+      console.log(option.xAxis)
+      myChart.setOption(option);

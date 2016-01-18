@@ -26,6 +26,15 @@ router.get('/', function(req, res, next) {
                 throw err;
             }
 
+            res.locals.maxData = -1;
+            rows.forEach(function (data) {
+                if (data.value > res.locals.maxData) {
+                    res.locals.maxData = data.value;
+                }
+            });
+
+            rows.reverse();
+
             res.locals.historyDatas = rows;
             res.render('index');
         });
