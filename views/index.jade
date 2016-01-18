@@ -14,4 +14,4 @@ block content
         | #{latestData.value}ug/m
         sup 3
       p 铂庭2区1号楼监测点
-      p 更新时间: #{latestData.year}年#{latestData.month}月#{latestData.day}日 #{latestData.hour}:#{latestData.minute}
+      p 更新时间: #{latestData.year}年#{latestData.month}月#{latestData.day}日 #{sprintf('%02d', latestData.hour)}:#{sprintf('%02d', latestData.minute)}
